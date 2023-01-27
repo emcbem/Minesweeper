@@ -1,0 +1,10 @@
+<Window x:Class="Minesweeper.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"  
+        Title="MainWindow" Height="350" Width="525" Icon="App.ico">
+    <Grid>
+        <TextBlock  HorizontalAlignment="Center">Welcome to Syncfusion Controls</TextBlock>
+        <Image Source="Assets/1Tile.png" Height="15" Margin="108,152,-108,167" RenderTransformOrigin="0.463,0.144" ></Image>
+    </Grid>
+</Window>

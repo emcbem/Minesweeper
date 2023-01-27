@@ -1,0 +1,61 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="App.ico" />
+    <None Remove="Assets\1Tile.png" />
+    <None Remove="Assets\2Tile.png" />
+    <None Remove="Assets\3Tile.png" />
+    <None Remove="Assets\4Tile.png" />
+    <None Remove="Assets\5Tile.png" />
+    <None Remove="Assets\6Tile.png" />
+    <None Remove="Assets\7Tile.png" />
+    <None Remove="Assets\8Tile.png" />
+    <None Remove="Assets\BlankTile.png" />
+    <None Remove="Assets\BlownUpMine.png" />
+    <None Remove="Assets\ClickedTile.png" />
+    <None Remove="Assets\Flagged.png" />
+    <None Remove="Assets\ShownMine.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+
+<PackageReference Include="Syncfusion.Shared.WPF" Version="20.4.0.38" />
+<PackageReference Include="Syncfusion.Tools.WPF" Version="20.4.0.38" />
+<PackageReference Include="Syncfusion.Data.WPF" Version="20.4.0.38" />
+<PackageReference Include="Syncfusion.SfGrid.WPF" Version="20.4.0.38" />
+<PackageReference Include="Syncfusion.SfChart.WPF" Version="20.4.0.38" />
+<PackageReference Include="Syncfusion.SfDiagram.WPF" Version="20.4.0.38" />
+<PackageReference Include="Syncfusion.Themes.Windows11Dark.Wpf" Version="20.4.0.38" />
+<PackageReference Include="Syncfusion.SfSkinManager.WPF" Version="20.4.0.38" />
+</ItemGroup>
+  
+  <ItemGroup>
+    <None Include="Project_Readme.html" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Resource Include="App.ico" />
+    <Resource Include="Assets\1Tile.png" />
+    <Resource Include="Assets\2Tile.png" />
+    <Resource Include="Assets\3Tile.png" />
+    <Resource Include="Assets\4Tile.png" />
+    <Resource Include="Assets\5Tile.png" />
+    <Resource Include="Assets\6Tile.png" />
+    <Resource Include="Assets\7Tile.png" />
+    <Resource Include="Assets\8Tile.png" />
+    <Resource Include="Assets\BlankTile.png" />
+    <Resource Include="Assets\BlownUpMine.png" />
+    <Resource Include="Assets\ClickedTile.png" />
+    <Resource Include="Assets\Flagged.png" />
+    <Resource Include="Assets\ShownMine.png" />
+  </ItemGroup>
+
+</Project>
