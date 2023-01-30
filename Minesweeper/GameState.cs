@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 namespace Minesweeper
 {
     public class GameState
@@ -7,6 +8,14 @@ namespace Minesweeper
         public int Columns { get; }
         public Board board { get; }
         public bool isBlown { get; private set; }
+
+        public GameState(int rows, int cols)
+        {
+            Rows = rows;
+            Colums = cols;
+            board = new Board(rows, cols);
+            
+        }
 
     }
 }
