@@ -5,19 +5,21 @@ namespace Minesweeper
 {
     public class Board
     {
-        private int[,] cells;
+        private Cell[,] cells;
         private int[,] numAdjacent;
         public Board(int x, int y)
         {
             x += 2;
             y += 2;
-            cells = new int[x, y];
+            cells = new Cell[x, y];
             Random random= new Random(x * y + ((int)DateTime.Now.Millisecond));
-            for(int i = 1; i < x - 1; i++)
+            for(int i = 0; i < x; i++)
             {
-                for(int j = 1; j < y - 1; j++)
+                for(int j = 0; j < y; j++)
                 {
-                    cells[i, j] = random.Next(0, 5) == 4 ? 1 : 0;
+                    if(i == 0 || i == x - 1 || j == 0 || j == y -1) { cells[i, j] = new Cell(false); continue; }
+                    else cells[i, j] = random.Next(0, 5) == 4 ? new Cell(true) : new Cell(false);
+
                 }
             }
 
@@ -26,9 +28,21 @@ namespace Minesweeper
             {
                 for (int j = 1; j < y - 1; j++)
                 {
-                    numAdjacent[i, j] = cells[i + 1, j] + cells[i + 1, j + 1] + cells[i, j + 1] + cells[i - 1, j + 1] + cells[i - 1, j] + cells[i-1, j-1] + cells[i, j-1] + cells[i + 1, j - 1];
+                    if (cells[i + 1, j].isMine) numAdjacent[i, j]++;
+                    if (cells[i + 1, j + 1].isMine) numAdjacent[i, j]++; 
+                    if (cells[i, j + 1].isMine) numAdjacent[i, j]++; 
+                    if (cells[i - 1, j + 1].isMine) numAdjacent[i, j]++;
+                    if (cells[i - 1, j].isMine) numAdjacent[i, j]++;
+                    if (cells[i-1, j-1].isMine) numAdjacent[i, j]++;
+                    if (cells[i, j-1].isMine) numAdjacent[i, j]++;
+                    if (cells[i + 1, j - 1].isMine) numAdjacent[i, j]++;
                 }
             }
+        }
+
+        public bool checkIfBomb(int x, int y)
+        {
+            return cells[x + 1, y + 1].isMine;
         }
 
         public int getNumAdj(int x, int y)
@@ -36,6 +50,8 @@ namespace Minesweeper
             return numAdjacent[x + 1, y + 1];
 
         }
+
+   
 
 
     }

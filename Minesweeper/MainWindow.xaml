@@ -7,6 +7,7 @@
         WindowStartupLocation="CenterScreen"
         Loaded="Window_Loaded"
         MouseDown="Mouse_Down">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>

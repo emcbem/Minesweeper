@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,7 +23,7 @@ namespace Minesweeper
     {
         private readonly Dictionary<int, ImageSource> TypeToImage = new()
         {
-            {0, Images.Empty },
+            {0, Images.Clicked },
             {1, Images.Tile1 },
             {2, Images.Tile2 },
             {3, Images.Tile3 },
@@ -33,6 +34,7 @@ namespace Minesweeper
             {8, Images.Tile8 }
         };
 
+        
         private GameState gameState;
 		#region Fields
         private string currentVisualStyle;
@@ -124,7 +126,8 @@ namespace Minesweeper
                 {
                     Image image = new Image
                     {
-                        Source = Images.Empty
+                        Source = Images.Empty,
+                        Tag = $"{i},{j}"
                     };
 
                     images[i, j] = image;
@@ -137,12 +140,45 @@ namespace Minesweeper
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Draw();
+    
         }
 
         private void Mouse_Down(object sender, MouseEventArgs e)
         {
+            //if(!gameState.isBlown)
+            //{
+                if(e.RightButton == MouseButtonState.Pressed)
+                {
+                    
+                    var im = e.OriginalSource as Image;
+                    if (im != null)
+                    {
+                        if (im.Source == Images.Empty) im.Source = Images.Flag;
+                        else if (im.Source == Images.Flag) im.Source = Images.Empty;
+                        return;
+                    }
+                }
+                var ima = e.OriginalSource as Image;
+                if(ima != null)
+                {
+                    if (ima.Source == Images.Flag) return;
+                    string name = ima.Tag.ToString();
+                    string[] locations = name.Split(',');
+                    int x = int.Parse(locations[0]);
+                    int y = int.Parse(locations[1]);
+                    if(gameState.board.checkIfBomb(x, y))
+                    {
+                        gameState.BLOWN();
+                        ima.Source = Images.BlownMine;
+                    }
+                    else
+                    {
+                        ima.Source = TypeToImage[gameState.board.getNumAdj(x, y)];
+                    }
+                }
 
+
+            //}
         }
 		
 		/// <summary>
@@ -165,6 +201,8 @@ namespace Minesweeper
         {
             DrawGrid();
         }
+
+    
 
         private void DrawGrid()
         {
