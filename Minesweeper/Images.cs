@@ -13,6 +13,12 @@ namespace Minesweeper
         public readonly static ImageSource Tile4 = LoadImage("4Tile.png");
         public readonly static ImageSource Tile5 = LoadImage("5Tile.png");
         public readonly static ImageSource Tile6 = LoadImage("6Tile.png");
+        public readonly static ImageSource Tile7 = LoadImage("7Tile.png");
+        public readonly static ImageSource Tile8 = LoadImage("8Tile.png");
+        public readonly static ImageSource Clicked =  LoadImage("ClickedTile.png");
+        public readonly static ImageSource Flag = LoadImage("Flagged.png");
+        public readonly static ImageSource BlownMine = LoadImage("BlownUpMine.png");
+        public readonly static ImageSource ShownMine = LoadImage("ShownMine.png");
 
 
 
@@ -24,10 +30,7 @@ namespace Minesweeper
 			return new BitmapImage(new Uri($"Assets/{fileName}", UriKind.Relative));
 		
 		}
-		public Images()
-		{
-
-		}
+		
 	}
 }
 

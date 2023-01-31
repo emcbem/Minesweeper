@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 
 namespace Minesweeper
 {
@@ -7,15 +8,16 @@ namespace Minesweeper
         public int Rows { get; }
         public int Columns { get; }
         public Board board { get; }
+
+        public int[,] marks { get; }
         public bool isBlown { get; private set; }
 
         public GameState(int rows, int cols)
         {
             Rows = rows;
-            Colums = cols;
+            Columns = cols;
             board = new Board(rows, cols);
-            
+            marks = new int[rows, cols];
         }
-
     }
 }

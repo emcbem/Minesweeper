@@ -20,6 +20,20 @@ namespace Minesweeper
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly Dictionary<int, ImageSource> TypeToImage = new()
+        {
+            {0, Images.Empty },
+            {1, Images.Tile1 },
+            {2, Images.Tile2 },
+            {3, Images.Tile3 },
+            {4, Images.Tile4 },
+            {5, Images.Tile5 },
+            {6, Images.Tile6 },
+            {7, Images.Tile7 },
+            {8, Images.Tile8 }
+        };
+
+        private GameState gameState;
 		#region Fields
         private string currentVisualStyle;
 		private string currentSizeMode;
@@ -61,10 +75,15 @@ namespace Minesweeper
                 OnSizeModeChanged();
             }
         }
+
+        private readonly int rows = 15, cols = 15;
+        private readonly Image[,] gridImages;
         #endregion
         public MainWindow()
         {
             InitializeComponent();
+            gridImages = SetupGrid();
+            gameState = new GameState(rows, cols);
 			this.Loaded += OnLoaded;
         }
 		/// <summary>
@@ -92,6 +111,39 @@ namespace Minesweeper
                 SfSkinManager.ApplyStylesOnApplication = false;
             }
         }
+
+        private Image[,] SetupGrid()
+        {
+            Image[,] images = new Image[rows, cols];
+            GameGrid.Rows = rows;
+            GameGrid.Columns = cols;
+
+            for(int i = 0; i < rows; i++)
+            {
+                for(int j = 0; j < cols; j++)
+                {
+                    Image image = new Image
+                    {
+                        Source = Images.Empty
+                    };
+
+                    images[i, j] = image;
+                    GameGrid.Children.Add(image);
+                }
+            }
+
+            return images;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            Draw();
+        }
+
+        private void Mouse_Down(object sender, MouseEventArgs e)
+        {
+
+        }
 		
 		/// <summary>
         /// On Size Mode Changed event.
@@ -106,6 +158,23 @@ namespace Minesweeper
                 SfSkinManager.ApplyStylesOnApplication = true;
                 SfSkinManager.SetSizeMode(this, sizeMode);
                 SfSkinManager.ApplyStylesOnApplication = false;
+            }
+        }
+
+        private void Draw()
+        {
+            DrawGrid();
+        }
+
+        private void DrawGrid()
+        {
+            for(int i = 0; i<rows; i++)
+            {
+                for(int j = 0; j < cols; j++)
+                {
+                    int val = gameState.board.getNumAdj(i, j);
+                    gridImages[i, j].Source = TypeToImage[val];
+                }
             }
         }
     }

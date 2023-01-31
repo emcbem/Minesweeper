@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:Minesweeper"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <SolidColorBrush x:Key="BackgroundColor">#c0c0c0</SolidColorBrush>
     </Application.Resources>
 </Application>

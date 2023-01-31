@@ -7,7 +7,7 @@ namespace Minesweeper
     {
         private int[,] cells;
         private int[,] numAdjacent;
-        Board(int x, int y)
+        public Board(int x, int y)
         {
             x += 2;
             y += 2;
@@ -17,7 +17,7 @@ namespace Minesweeper
             {
                 for(int j = 1; j < y - 1; j++)
                 {
-                    cells[i, j] = random.Next(0, 5) == 5 ? 1 : 0;
+                    cells[i, j] = random.Next(0, 5) == 4 ? 1 : 0;
                 }
             }
 
@@ -30,5 +30,13 @@ namespace Minesweeper
                 }
             }
         }
+
+        public int getNumAdj(int x, int y)
+        {
+            return numAdjacent[x + 1, y + 1];
+
+        }
+
+
     }
 }
