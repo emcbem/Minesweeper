@@ -35,8 +35,8 @@ namespace Minesweeper
         };
 
         private GameState gameState;
-        private readonly int rows = 15, cols = 15;
-        private readonly Image[,] gridImages;
+        private readonly int rows = 50, cols = 50;
+        private  Image[,] gridImages;
         #region Fields
         private string currentVisualStyle;
 		private string currentSizeMode;
@@ -118,6 +118,7 @@ namespace Minesweeper
             Image[,] images = new Image[rows, cols];
             GameGrid.Rows = rows;
             GameGrid.Columns = cols;
+            GameGrid.Children.Clear();
 
             for(int i = 0; i < rows; i++)
             {
@@ -140,6 +141,13 @@ namespace Minesweeper
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
     
+        }
+
+        private void StartOver_Click(object sender, RoutedEventArgs e)
+        {
+            gridImages = SetupGrid();
+            gameState = new GameState(rows, cols);
+            Draw();
         }
 
         private void Mouse_Down(object sender, MouseEventArgs e)
@@ -183,8 +191,8 @@ namespace Minesweeper
                         gameState.board.makeShown(x, y);
                         emptyTileSpread(x, y, true);
                         Draw();
-             
                     }
+                    return;
                 }
             }
         }

@@ -14,12 +14,10 @@
             <RowDefinition Height="*"/>
             
         </Grid.RowDefinitions>
-
-        <TextBlock x:Name="Menu"
-                   HorizontalAlignment="Center"
+        <Button x:Name="StartOver" Content="Button"
                    VerticalAlignment="Center"
-                   Text="Menu"
-                   Margin="10"/>
+                   Margin="10"
+                Click="StartOver_Click"/>
         <Border x:Name="GridBorder"
                 Grid.Row="1"
                 HorizontalAlignment="Center"
@@ -32,5 +30,6 @@
                          RenderOptions.BitmapScalingMode="HighQuality">
             </UniformGrid>
         </Border>
+        
     </Grid>
 </Window>
