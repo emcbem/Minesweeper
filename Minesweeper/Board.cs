@@ -12,7 +12,7 @@ namespace Minesweeper
             x += 2;
             y += 2;
             cells = new Cell[x, y];
-            Random random= new Random(x * y + ((int)DateTime.Now.Millisecond));
+            Random random= new Random(x * y + ((int)DateTime.Now.Millisecond) * ((int)DateTime.Now.Minute));
             for(int i = 0; i < x; i++)
             {
                 for(int j = 0; j < y; j++)

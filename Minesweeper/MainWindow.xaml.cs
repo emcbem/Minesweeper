@@ -35,7 +35,7 @@ namespace Minesweeper
         };
 
         private GameState gameState;
-        private readonly int rows = 50, cols = 50;
+        private readonly int rows = 20, cols = 20;
         private  Image[,] gridImages;
         #region Fields
         private string currentVisualStyle;
