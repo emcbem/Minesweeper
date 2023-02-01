@@ -20,11 +20,6 @@ namespace Minesweeper
         public readonly static ImageSource BlownMine = LoadImage("BlownUpMine.png");
         public readonly static ImageSource ShownMine = LoadImage("ShownMine.png");
 
-
-
-
-
-
         private static ImageSource LoadImage(string fileName)
 		{
 			return new BitmapImage(new Uri($"Assets/{fileName}", UriKind.Relative));

@@ -7,11 +7,12 @@
         WindowStartupLocation="CenterScreen"
         Loaded="Window_Loaded"
         MouseDown="Mouse_Down">
-
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
+            
         </Grid.RowDefinitions>
 
         <TextBlock x:Name="Menu"
@@ -25,8 +26,8 @@
                 VerticalAlignment="Center"
                 RenderOptions.EdgeMode="Aliased">
             <UniformGrid x:Name="GameGrid"
-                         Width="400"
-                         Height="400"
+                         Width="auto"
+                         Height="auto"
                          SnapsToDevicePixels="True"
                          RenderOptions.BitmapScalingMode="HighQuality">
             </UniformGrid>

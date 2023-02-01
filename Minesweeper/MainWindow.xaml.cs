@@ -34,9 +34,10 @@ namespace Minesweeper
             {8, Images.Tile8 }
         };
 
-        
         private GameState gameState;
-		#region Fields
+        private readonly int rows = 15, cols = 15;
+        private readonly Image[,] gridImages;
+        #region Fields
         private string currentVisualStyle;
 		private string currentSizeMode;
         #endregion
@@ -78,8 +79,6 @@ namespace Minesweeper
             }
         }
 
-        private readonly int rows = 15, cols = 15;
-        private readonly Image[,] gridImages;
         #endregion
         public MainWindow()
         {
@@ -145,15 +144,20 @@ namespace Minesweeper
 
         private void Mouse_Down(object sender, MouseEventArgs e)
         {
-            //if(!gameState.isBlown)
-            //{
+            if(!gameState.isBlown)
+            {
                 if(e.RightButton == MouseButtonState.Pressed)
                 {
                     
                     var im = e.OriginalSource as Image;
                     if (im != null)
                     {
-                        if (im.Source == Images.Empty) im.Source = Images.Flag;
+                        string name = im.Tag.ToString();
+                        string[] locations = name.Split(',');
+                        int x = int.Parse(locations[0]);
+                        int y = int.Parse(locations[1]);
+                        gameState.board.flag(x, y);
+                        if (im.Source == Images.Empty) im.Source = Images.Flag; 
                         else if (im.Source == Images.Flag) im.Source = Images.Empty;
                         return;
                     }
@@ -162,6 +166,7 @@ namespace Minesweeper
                 if(ima != null)
                 {
                     if (ima.Source == Images.Flag) return;
+                    if (ima.Source == Images.Clicked) return;
                     string name = ima.Tag.ToString();
                     string[] locations = name.Split(',');
                     int x = int.Parse(locations[0]);
@@ -173,12 +178,35 @@ namespace Minesweeper
                     }
                     else
                     {
-                        ima.Source = TypeToImage[gameState.board.getNumAdj(x, y)];
+                        int num = gameState.board.getNumAdj(x, y);
+                        ima.Source = TypeToImage[num];
+                        gameState.board.makeShown(x, y);
+                        emptyTileSpread(x, y, true);
+                        Draw();
+             
                     }
                 }
+            }
+        }
 
-
-            //}
+        private void emptyTileSpread(int x, int y, bool first)
+        {
+            if(gameState.board.checkIfShown(x, y) && !first)
+            {
+                return;
+            }
+            gameState.board.makeShown(x, y);
+            if(gameState.board.getNumAdj(x, y) == 0)
+            {
+              emptyTileSpread(x + 1, y, false);
+              emptyTileSpread(x + 1, y + 1, false);
+              emptyTileSpread(x, y + 1, false);
+              emptyTileSpread(x - 1, y + 1, false);
+              emptyTileSpread(x - 1, y, false);
+              emptyTileSpread(x - 1, y - 1, false);
+              emptyTileSpread(x, y - 1, false);
+              emptyTileSpread(x + 1, y - 1, false);
+            }
         }
 		
 		/// <summary>
@@ -202,16 +230,29 @@ namespace Minesweeper
             DrawGrid();
         }
 
-    
-
+        //MAKE CHECK SHOWN
         private void DrawGrid()
         {
             for(int i = 0; i<rows; i++)
             {
                 for(int j = 0; j < cols; j++)
                 {
-                    int val = gameState.board.getNumAdj(i, j);
-                    gridImages[i, j].Source = TypeToImage[val];
+                    if(gameState.board.checkIfShown(i, j))
+                    {
+                        int val = gameState.board.getNumAdj(i, j);
+                        gridImages[i, j].Source = TypeToImage[val];
+                    }
+                    else
+                    {
+                        if(gameState.board.checkIfFlagged(i, j))
+                        {
+                            gridImages[i, j].Source = Images.Flag;
+                        }
+                        else
+                        {
+                            gridImages[i, j].Source = Images.Empty;
+                        }
+                    }
                 }
             }
         }

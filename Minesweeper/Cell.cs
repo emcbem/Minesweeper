@@ -12,10 +12,18 @@ namespace Minesweeper
     {
         public bool isMine { get; }
         public bool isFlagged { get; private set; }
+
+        public bool isShown { get; private set; }
      
         public Cell(bool isMine)
         {
             this.isMine = isMine;
+        }
+
+        public Cell(bool isMine, bool isShown)
+        {
+            this.isMine = isMine;
+            this.isShown = isShown;
         }
         public void Flag()
         {
@@ -25,7 +33,7 @@ namespace Minesweeper
         }
         public bool click()
         {
-            if(isFlagged)
+            if (isShown || isFlagged)
             {
                 //True means that the user is not dead
                 return true;
@@ -35,6 +43,11 @@ namespace Minesweeper
                 return false;
             }
             return true;
+        }
+
+        public void Shown()
+        {
+            isShown = true;
         }
     }
 }

@@ -17,8 +17,8 @@ namespace Minesweeper
             {
                 for(int j = 0; j < y; j++)
                 {
-                    if(i == 0 || i == x - 1 || j == 0 || j == y -1) { cells[i, j] = new Cell(false); continue; }
-                    else cells[i, j] = random.Next(0, 5) == 4 ? new Cell(true) : new Cell(false);
+                    if(i == 0 || i == x - 1 || j == 0 || j == y -1) { cells[i, j] = new Cell(false, true); continue; }
+                    else cells[i, j] = random.Next(0, 10) == 4 ? new Cell(true) : new Cell(false);
 
                 }
             }
@@ -48,11 +48,27 @@ namespace Minesweeper
         public int getNumAdj(int x, int y)
         {
             return numAdjacent[x + 1, y + 1];
-
+        }
+        
+        public bool checkIfShown(int x, int y)
+        {
+            return cells[x + 1, y + 1].isShown;
         }
 
-   
+        public void makeShown(int x, int y)
+        {
+            cells[x + 1, y + 1].Shown();
+        }
 
+        public bool checkIfFlagged(int x, int y)
+        {
+            return cells[x + 1, y + 1].isFlagged;
+        }
 
+        public void flag(int x, int y)
+        {
+           
+                cells[x + 1, y + 1].Flag();
+        }
     }
 }
