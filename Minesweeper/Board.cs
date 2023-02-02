@@ -1,5 +1,7 @@
 ﻿
 using System;
+using System.Windows.Documents;
+using Syncfusion.Windows.Shared;
 
 namespace Minesweeper
 {
@@ -7,7 +9,7 @@ namespace Minesweeper
     {
         private Cell[,] cells;
         private int[,] numAdjacent;
-        public Board(int x, int y)
+        public Board(int x, int y, int mines)
         {
             x += 2;
             y += 2;
@@ -17,9 +19,21 @@ namespace Minesweeper
             {
                 for(int j = 0; j < y; j++)
                 {
-                    if(i == 0 || i == x - 1 || j == 0 || j == y -1) { cells[i, j] = new Cell(false, true); continue; }
-                    else cells[i, j] = random.Next(0, 10) == 4 ? new Cell(true) : new Cell(false);
-
+                    if (i == 0 || i == x - 1 || j == 0 || j == y - 1) { cells[i, j] = new Cell(false, true); continue; }
+                    else cells[i, j] = new Cell(false);
+                }
+            }
+            Cell hold;
+            while(mines > 0)
+            {
+                while (mines > 0)
+                {
+                    hold = cells[random.Next(1, x - 1), random.Next(1, y - 1)];
+                    if (!hold.isMine)
+                    {
+                        mines--;
+                        hold.MakeMine();
+                    }
                 }
             }
 

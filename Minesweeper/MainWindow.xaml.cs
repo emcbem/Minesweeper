@@ -35,7 +35,8 @@ namespace Minesweeper
         };
 
         private GameState gameState;
-        private readonly int rows = 20, cols = 20;
+        private static  readonly int rows = 5, cols = 5;
+        private int mines = (rows * cols)/10;
         private  Image[,] gridImages;
         #region Fields
         private string currentVisualStyle;
@@ -84,7 +85,7 @@ namespace Minesweeper
         {
             InitializeComponent();
             gridImages = SetupGrid();
-            gameState = new GameState(rows, cols);
+            gameState = new GameState(rows, cols, mines);
 			this.Loaded += OnLoaded;
         }
 		/// <summary>
@@ -146,7 +147,7 @@ namespace Minesweeper
         private void StartOver_Click(object sender, RoutedEventArgs e)
         {
             gridImages = SetupGrid();
-            gameState = new GameState(rows, cols);
+            gameState = new GameState(rows, cols, mines);
             Draw();
         }
 

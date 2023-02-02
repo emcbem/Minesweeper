@@ -10,20 +10,22 @@ namespace Minesweeper
         public Board board { get; }
         public bool isBlown { get; private set; }
 
+        public int numMines { get; private set; }
+
         public int numFlagged { get; private set; }
         public int numEmpty { get; private set; }
+
+        public bool isFinished { get { if (numFlagged + numEmpty == numMines) return true; else return false; } }
         
 
-        public GameState(int rows, int cols)
+        public GameState(int rows, int cols, int mines)
         {
             Rows = rows;
             Columns = cols;
-            board = new Board(rows, cols);
+            board = new Board(rows, cols, mines);
+            numMines = mines;
             numFlagged = 0;
             numEmpty = rows * cols;
-
-            //CHANGE THE WAY MINES ARE MADE. mAKE THE RANDOM GENERATOR GET TWO NUMBERS AND USE THEM AS THE COORDINATES OF THE BOMB.
-            //SET MAX BOMBS BEFORE BEING MADE
         }
 
         public void BLOWN()
