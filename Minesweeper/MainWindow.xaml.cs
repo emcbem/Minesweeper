@@ -35,8 +35,8 @@ namespace Minesweeper
         };
 
         private GameState gameState;
-        private static  readonly int rows = 5, cols = 5;
-        private int mines = (rows * cols)/10;
+        private static  readonly int rows = 1, cols = 100;
+        private int mines = (rows * cols)/5;
         private  Image[,] gridImages;
         #region Fields
         private string currentVisualStyle;
@@ -189,8 +189,8 @@ namespace Minesweeper
                     {
                         int num = gameState.board.getNumAdj(x, y);
                         ima.Source = TypeToImage[num];
-                        gameState.board.makeShown(x, y);
-                        emptyTileSpread(x, y, true);
+
+                        emptyTileSpread(x, y);
                         Draw();
                     }
                     return;
@@ -198,23 +198,23 @@ namespace Minesweeper
             }
         }
 
-        private void emptyTileSpread(int x, int y, bool first)
+        private void emptyTileSpread(int x, int y)
         {
-            if(gameState.board.checkIfShown(x, y) && !first)
+            if(gameState.board.checkIfShown(x, y))
             {
                 return;
             }
             gameState.board.makeShown(x, y);
             if(gameState.board.getNumAdj(x, y) == 0)
             {
-              emptyTileSpread(x + 1, y, false);
-              emptyTileSpread(x + 1, y + 1, false);
-              emptyTileSpread(x, y + 1, false);
-              emptyTileSpread(x - 1, y + 1, false);
-              emptyTileSpread(x - 1, y, false);
-              emptyTileSpread(x - 1, y - 1, false);
-              emptyTileSpread(x, y - 1, false);
-              emptyTileSpread(x + 1, y - 1, false);
+              emptyTileSpread(x + 1, y);
+              emptyTileSpread(x + 1, y + 1);
+              emptyTileSpread(x, y + 1);
+              emptyTileSpread(x - 1, y + 1 );
+              emptyTileSpread(x - 1, y);
+              emptyTileSpread(x - 1, y - 1);
+              emptyTileSpread(x, y - 1);
+              emptyTileSpread(x + 1, y - 1);
             }
         }
 		
