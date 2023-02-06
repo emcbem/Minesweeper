@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 
 namespace Minesweeper
 {
@@ -67,8 +66,7 @@ namespace Minesweeper
 
         public void flag(int x, int y)
         {
-           
-                cells[x + 1, y + 1].Flag();
+            cells[x + 1, y + 1].Flag();
         }
     }
 }
