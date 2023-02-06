@@ -20,7 +20,12 @@ namespace Minesweeper
         Easy,
         Medium,
         Hard,
-        Expert
+        Expert,
+        Expert2,
+        Expert3,
+        Expert4,
+        Expert5,
+        SECRET
     }
     public partial class MainWindow : Window
     {
@@ -37,21 +42,26 @@ namespace Minesweeper
             {8, Images.Tile8 }
         };
 
+        private readonly Dictionary<Difficulty, (int rows, int columns, int mines)> DifficultyToType = new()
+        {
+            {Difficulty.Easy, (10, 10, 20)},
+            {Difficulty.Medium, (20, 20, 80)},
+            {Difficulty.Hard, (30, 30, 300)},
+            {Difficulty.Expert, (50, 50, 1500)},
+            {Difficulty.Expert2, (50, 50, 1500)},
+            {Difficulty.Expert3, (50, 50, 1500)},
+            {Difficulty.Expert4, (50, 50, 1500)},
+            {Difficulty.Expert5, (50, 50, 1500)},
+            {Difficulty.SECRET, (100, 100, 9999)}
+        };
+
         private GameState gameState;
-
-        private int rows = 20, cols = 20;
-        private int mines = 15;
-        
-
+        private int rows = 100, cols = 100;
+        private int mines = 20;
         private  Image[,] gridImages;
         private Difficulty difficulty = Difficulty.Easy;
       
 
-        
-		
-		
-
-       
         public MainWindow()
         {
             InitializeComponent();
@@ -111,15 +121,21 @@ namespace Minesweeper
             {
                 difficulty--;
             }
+            (int rows, int cols, int mines) result = DifficultyToType[difficulty];
+            rows = result.rows; cols = result.cols;
+            mines= result.mines;
             StartOver_Click(sender, e);
         }
 
         private void Increase_Click(object sender, RoutedEventArgs e)
         {
-            if(difficulty != Difficulty.Expert)
+            if(difficulty != Difficulty.SECRET)
             {
                 difficulty++;
             }
+            (int rows, int cols, int mines) result = DifficultyToType[difficulty];
+            rows = result.rows; cols = result.cols;
+            mines = result.mines;
             StartOver_Click(sender, e);
         }
 
