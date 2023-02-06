@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Windows.Documents;
-using Syncfusion.Windows.Shared;
 
 namespace Minesweeper
 {
@@ -80,8 +78,7 @@ namespace Minesweeper
 
         public void flag(int x, int y)
         {
-           
-                cells[x + 1, y + 1].Flag();
+            cells[x + 1, y + 1].Flag();
         }
     }
 }

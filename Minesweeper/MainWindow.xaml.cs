@@ -38,8 +38,11 @@ namespace Minesweeper
         };
 
         private GameState gameState;
+
         private int rows = 20, cols = 20;
-        private int bombs = 15;
+        private int mines = 15;
+        
+
         private  Image[,] gridImages;
         private Difficulty difficulty = Difficulty.Easy;
       
@@ -53,7 +56,8 @@ namespace Minesweeper
         {
             InitializeComponent();
             gridImages = SetupGrid();
-            gameState = new GameState(rows, cols);
+            gameState = new GameState(rows, cols, mines);
+
         }
 
 		
