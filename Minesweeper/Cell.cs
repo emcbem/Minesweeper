@@ -10,7 +10,7 @@ namespace Minesweeper
 {
     public class Cell
     {
-        public bool isMine { get; }
+        public bool isMine { get; private set; }
         public bool isFlagged { get; private set; }
 
         public bool isShown { get; private set; }
@@ -48,6 +48,11 @@ namespace Minesweeper
         public void Shown()
         {
             isShown = true;
+        }
+
+        public void MakeMine()
+        {
+            isMine = true;
         }
     }
 }
