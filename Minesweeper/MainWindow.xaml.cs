@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -21,10 +22,6 @@ namespace Minesweeper
         Medium,
         Hard,
         Expert,
-        Expert2,
-        Expert3,
-        Expert4,
-        Expert5,
         SECRET
     }
     public partial class MainWindow : Window
@@ -44,20 +41,15 @@ namespace Minesweeper
 
         private readonly Dictionary<Difficulty, (int rows, int columns, int mines)> DifficultyToType = new()
         {
-            {Difficulty.Easy, (10, 10, 20)},
+            {Difficulty.Easy, (10, 10, 10)},
             {Difficulty.Medium, (20, 20, 80)},
             {Difficulty.Hard, (30, 30, 300)},
-            {Difficulty.Expert, (50, 50, 1500)},
-            {Difficulty.Expert2, (50, 50, 1500)},
-            {Difficulty.Expert3, (50, 50, 1500)},
-            {Difficulty.Expert4, (50, 50, 1500)},
-            {Difficulty.Expert5, (50, 50, 1500)},
-            {Difficulty.SECRET, (100, 100, 9999)}
+            {Difficulty.Expert, (50, 50, 2)}
         };
 
         private GameState gameState;
         private int rows = 100, cols = 100;
-        private int mines = 20;
+        private int mines = 8;
         private  Image[,] gridImages;
         private Difficulty difficulty = Difficulty.Easy;
       
@@ -76,8 +68,6 @@ namespace Minesweeper
             
         }
 		
-        
-
         private Image[,] SetupGrid()
         {
             Image[,] images = new Image[rows, cols];
@@ -129,7 +119,7 @@ namespace Minesweeper
 
         private void Increase_Click(object sender, RoutedEventArgs e)
         {
-            if(difficulty != Difficulty.SECRET)
+            if(difficulty != Difficulty.Expert)
             {
                 difficulty++;
             }
@@ -179,7 +169,6 @@ namespace Minesweeper
                         ima.Source = TypeToImage[num];
 
                         emptyTileSpread(x, y);
-                        Draw();
                     }
                     return;
                 }
@@ -193,6 +182,7 @@ namespace Minesweeper
                 return;
             }
             gameState.board.makeShown(x, y);
+            DrawTile(x, y);
             if(gameState.board.getNumAdj(x, y) == 0)
             {
               emptyTileSpread(x + 1, y);
@@ -213,29 +203,34 @@ namespace Minesweeper
             DrawGrid();
         }
 
-        //MAKE CHECK SHOWN
+        private void DrawTile(int x, int y)
+        {
+            if (gameState.board.checkIfShown(x, y))
+            {
+                int val = gameState.board.getNumAdj(x, y);
+                gridImages[x, y].Source = TypeToImage[val];
+            }
+            else
+            {
+                if (gameState.board.checkIfFlagged(x, y))
+                {
+                    gridImages[x, y].Source = Images.Flag;
+                }
+                else
+                {
+                    gridImages[x, y].Source = Images.Empty;
+                }
+            }
+        }
+
+        
         private void DrawGrid()
         {
             for(int i = 0; i<rows; i++)
             {
                 for(int j = 0; j < cols; j++)
                 {
-                    if(gameState.board.checkIfShown(i, j))
-                    {
-                        int val = gameState.board.getNumAdj(i, j);
-                        gridImages[i, j].Source = TypeToImage[val];
-                    }
-                    else
-                    {
-                        if(gameState.board.checkIfFlagged(i, j))
-                        {
-                            gridImages[i, j].Source = Images.Flag;
-                        }
-                        else
-                        {
-                            gridImages[i, j].Source = Images.Empty;
-                        }
-                    }
+                    DrawTile(i, j);
                 }
             }
         }
