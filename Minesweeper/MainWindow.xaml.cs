@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata;
+using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading;
 using System.Windows;
@@ -133,44 +134,46 @@ namespace Minesweeper
         {
             if(!gameState.isBlown)
             {
-                if(e.RightButton == MouseButtonState.Pressed)
+                var im = e.OriginalSource as Image;
+                if (im != null)
                 {
-                    
-                    var im = e.OriginalSource as Image;
-                    if (im != null)
+                    if (e.RightButton == MouseButtonState.Pressed)
                     {
                         string name = im.Tag.ToString();
                         string[] locations = name.Split(',');
                         int x = int.Parse(locations[0]);
                         int y = int.Parse(locations[1]);
                         gameState.board.flag(x, y);
-                        if (im.Source == Images.Empty) im.Source = Images.Flag; 
+                        if (im.Source == Images.Empty) im.Source = Images.Flag;
                         else if (im.Source == Images.Flag) im.Source = Images.Empty;
                         return;
                     }
-                }
-                var ima = e.OriginalSource as Image;
-                if(ima != null)
-                {
-                    if (ima.Source == Images.Flag) return;
-                    if (ima.Source == Images.Clicked) return;
-                    string name = ima.Tag.ToString();
-                    string[] locations = name.Split(',');
-                    int x = int.Parse(locations[0]);
-                    int y = int.Parse(locations[1]);
-                    if(gameState.board.checkIfBomb(x, y))
+                    else if (e.LeftButton == MouseButtonState.Pressed)
                     {
-                        gameState.BLOWN();
-                        ima.Source = Images.BlownMine;
-                    }
-                    else
-                    {
-                        int num = gameState.board.getNumAdj(x, y);
-                        ima.Source = TypeToImage[num];
+                        if (im.Source == Images.Flag) return;
+                        if (im.Source == Images.Clicked) return;
+                        string name = im.Tag.ToString();
+                        string[] locations = name.Split(',');
+                        int x = int.Parse(locations[0]);
+                        int y = int.Parse(locations[1]);
+                        if (gameState.board.checkIfBomb(x, y))
+                        {
+                            gameState.BLOWN();
+                            im.Source = Images.BlownMine;
+                        }
+                        else if(gameState.board.checkIfShown(x,y))
+                        {
+                            ClickAround(x, y);
+                        }
+                        else
+                        {
+                            int num = gameState.board.getNumAdj(x, y);
+                            im.Source = TypeToImage[num];
 
-                        emptyTileSpread(x, y);
+                            emptyTileSpread(x, y);
+                        }
+                        return;
                     }
-                    return;
                 }
             }
         }
@@ -193,6 +196,21 @@ namespace Minesweeper
               emptyTileSpread(x - 1, y - 1);
               emptyTileSpread(x, y - 1);
               emptyTileSpread(x + 1, y - 1);
+            }
+        }
+
+        private void ClickAround(int x, int y)
+        {
+            if(gameState.board.getNumAdj(x,y) == gameState.board.getFlaggedAdj(x,y))
+            {
+                DrawTile(x + 1, y);
+                DrawTile(x + 1, y + 1);
+                DrawTile(x,     y + 1);
+                DrawTile(x - 1, y + 1);
+                DrawTile(x - 1, y);
+                DrawTile(x - 1, y - 1);
+                DrawTile(x,     y - 1);
+                DrawTile(x + 1, y - 1);
             }
         }
 		

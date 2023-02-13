@@ -60,6 +60,20 @@ namespace Minesweeper
         {
             return numAdjacent[x + 1, y + 1];
         }
+
+        public int getFlaggedAdj(int x, int y)
+        {
+            int numAdjacent = 0;
+            if (cells[x + 1, y].isFlagged)     numAdjacent++;
+            if (cells[x + 1, y + 1].isFlagged) numAdjacent++;
+            if (cells[x, y + 1].isFlagged)     numAdjacent++;
+            if (cells[x - 1, y + 1].isFlagged) numAdjacent++;
+            if (cells[x - 1, y].isFlagged)     numAdjacent++;
+            if (cells[x - 1, y - 1].isFlagged) numAdjacent++;
+            if (cells[x, y - 1].isFlagged)     numAdjacent++;
+            if (cells[x + 1, y - 1].isFlagged) numAdjacent++;
+            return numAdjacent;
+        }
         
         public bool checkIfShown(int x, int y)
         {
