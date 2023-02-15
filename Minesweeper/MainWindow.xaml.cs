@@ -49,7 +49,7 @@ namespace Minesweeper
         };
 
         private GameState gameState;
-        private int rows = 100, cols = 100;
+        private int rows = 10, cols = 10;
         private int mines = 8;
         private  Image[,] gridImages;
         private Difficulty difficulty = Difficulty.Easy;
@@ -203,6 +203,7 @@ namespace Minesweeper
         {
             if(gameState.board.getNumAdj(x,y) == gameState.board.getFlaggedAdj(x,y))
             {
+                gameState.board.SurroundShown(x, y);
                 DrawTile(x + 1, y);
                 DrawTile(x + 1, y + 1);
                 DrawTile(x,     y + 1);
@@ -214,6 +215,7 @@ namespace Minesweeper
             }
         }
 		
+
 		
 
         private void Draw()
