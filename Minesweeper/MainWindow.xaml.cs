@@ -7,13 +7,10 @@ using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace Minesweeper
 {
@@ -225,21 +222,18 @@ namespace Minesweeper
 
         private void DrawTile(int x, int y)
         {
-            if (gameState.board.checkIfShown(x, y))
+            if (gameState.board.checkIfFlagged(x, y))
+            {
+                gridImages[x, y].Source = Images.Flag;
+            }
+            else if (gameState.board.checkIfShown(x, y))
             {
                 int val = gameState.board.getNumAdj(x, y);
-                gridImages[x, y].Source = TypeToImage[val];
+                try { gridImages[x, y].Source = TypeToImage[val]; } catch { }
             }
             else
             {
-                if (gameState.board.checkIfFlagged(x, y))
-                {
-                    gridImages[x, y].Source = Images.Flag;
-                }
-                else
-                {
-                    gridImages[x, y].Source = Images.Empty;
-                }
+                gridImages[x, y].Source = Images.Empty;
             }
         }
 
